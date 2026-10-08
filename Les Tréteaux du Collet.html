@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Tréteaux du Collet - Théâtre associatif en Cévennes</title>
+    <style>
+        /* =========================================
+           VARIABLES & RESET
+           ========================================= */
+        :root {
+            --rose: #e6007e;
+            --rose-fonce: #b30062;
+            --vert: #4cd137;
+            --jaune: #fbc531;
+            --noir: #1e1e1e;
+            --gris-clair: #f4f4f4;
+            --blanc: #ffffff;
+            --texte: #333333;
+            --font-titre: 'Georgia', serif;
+            --font-texte: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-texte);
+            color: var(--texte);
+            background-color: var(--blanc);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* =========================================
+           TYPOGRAPHIE & UTILITAIRES
+           ========================================= */
+        h1, h2, h3, h4 {
+            font-family: var(--font-titre);
+            color: var(--noir);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '★';
+            display: block;
+            color: var(--rose);
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-rose {
+            background-color: var(--rose);
+            color: var(--blanc);
+        }
+
+        .btn-rose:hover {
+            background-color: var(--rose-fonce);
+            transform: translateY(-2px);
+        }
+
+        .btn-jaune {
+            background-color: var(--jaune);
+            color: var(--noir);
+        }
+
+        .btn-jaune:hover {
+            background-color: #e1b12c;
+            transform: translateY(-2px);
+        }
+
+        .btn-vert {
+            background-color: var(--vert);
+            color: var(--noir);
+        }
+
+        .btn-vert:hover {
+            background-color: #3ea82b;
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+           HEADER & NAVIGATION
+           ========================================= */
+        header {
+            background-color: var(--noir);
+            color: var(--blanc);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-titre);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--blanc);
+        }
+
+        .logo span {
+            color: var(--rose);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--blanc);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--rose);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        .hero {
+            /* L'image de fond est le paysage du Collet */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--blanc);
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--blanc);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* =========================================
+           SECTION PROGRAMMATION
+           ========================================= */
+        .programmation {
+            padding: 80px 0;
+            background-color: var(--gris-clair);
+        }
+
+        .mois-titre {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--rose);
+            margin: 40px 0 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .grille-evenements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .carte-event {
+            background: var(--blanc);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-top: 5px solid var(--rose);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carte-event:hover {
+            transform: translateY(-5px);
+        }
+
+        .carte-event img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: #ddd; /* Placeholder */
+        }
+
+        .carte-event-contenu {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carte-event-date {
+            font-weight: bold;
+            color: var(--rose);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .carte-event-titre {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--noir);
+        }
+
+        .carte-event-desc {
+            font-size: 0.95rem;
+            color: #666;
+            flex-grow: 1;
+        }
+
+        .carte-event-tag {
+            display: inline-block;
+            background: var(--jaune);
+            color: var(--noir);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+
+        /* =========================================
+           SECTION LE LIEU / HISTOIRE
+           ========================================= */
+        .le-lieu {
+            padding: 80px 0;
+            background-color: var(--blanc);
+        }
+
+        .le-lieu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .le-lieu-texte h3 {
+            font-size: 2rem;
+            color: var(--rose);
+            margin-bottom: 20px;
+        }
+
+        .le-lieu-texte p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .le-lieu-image img {
+            border-radius: 10px;
+            box-shadow: 10px 10px 0 var(--vert);
+        }
+
+        /* =========================================
+           SECTION PROJET / SOUTIEN
+           ========================================= */
+        .projet {
+            padding: 80px 0;
+            background-color: var(--noir);
+            color: var(--blanc);
+        }
+
+        .projet h2 {
+            color: var(--blanc);
+        }
+
+        .projet h2::after {
+            color: var(--jaune);
+        }
+
+        .projet-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .projet-texte h3 {
+            color: var(--jaune);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .projet-texte p {
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+
+        .projet-texte ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .projet-texte ul li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .projet-texte ul li::before {
+            content: '→';
+            color: var(--vert);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .faq-box {
+            background: #2a2a2a;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid var(--rose);
+        }
+
+        .faq-box h4 {
+            color: var(--rose);
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .faq-box p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .barre-progression {
+            background: #333;
+            border-radius: 20px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .barre-remplie {
+            background: linear-gradient(90deg, var(--vert), var(--jaune));
+            height: 100%;
+            width: 15%; /* Exemple : 15 000 sur 137 000 */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: var(--noir);
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: width 1s ease-in-out;
+        }
+
+        .frise {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px dashed #444;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .frise-item {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .frise-item span {
+            display: block;
+            font-weight: bold;
+            color: var(--rose);
+            margin-bottom: 5px;
+        }
+
+        .frise-item small {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer {
+            background-color: #111;
+            color: #888;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .footer-col h4 {
+            color: var(--blanc);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col p, .footer-col a {
+            margin-bottom: 10px;
+            display: block;
+            color: #aaa;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--rose);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (max-width: 900px) {
+            .le-lieu-grid, .projet-grid {
+                grid-template-columns: 1fr;
+            }
+            .le-lieu-image {
+                order: -1;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+            nav {
+                display: none;
+                width: 100%;
+            }
+            nav.active {
+                display: block;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 15px;
+            }
+            .frise {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">Les Tréteaux <span>du Collet</span></div>
+            <div class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('active')">☰</div>
+            <nav>
+                <ul>
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#programmation">Programmation</a></li>
+                    <li><a href="#le-lieu">Le Lieu</a></li>
+                    <li><a href="#projet">Soutenir le projet</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ================= HERO ================= -->
+    <section id="accueil" class="hero">
+        <div class="hero-content">
+            <h1>Un théâtre vivant en Cévennes</h1>
+            <p>Spectacles, rencontres et culture au cœur du mas du Collet à Concoules (30).</p>
+            <div class="hero-buttons">
+                <a href="#programmation" class="btn btn-rose">Voir la programmation</a>
+                <a href="#projet" class="btn btn-jaune">Soutenir le rachat</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PROGRAMMATION ================= -->
+    <section id="programmation" class="programmation">
+        <div class="container">
+            <h2>Programmation 2026</h2>
+            <p style="text-align: center; margin-bottom: 40px;">Retrouvez tous nos événements de juillet à octobre. Réservations au 06 37 93 88 37.</p>
+
+            <!-- Juillet -->
+            <h3 class="mois-titre">Juillet 2026</h3>
+            <div class="grille-evenements">
+                <div class="carte-event">
+                    <!-- Image de l'affiche Scène Ouverte -->
+                    <img src="https://via.placeholder.com/400x250/e6007e/ffffff?text=Scene+Ouverte" alt="Affiche Scène Ouverte">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 3 - 21h</div>
+                        <h4 class="carte-event-titre">Scène Ouverte</h4>
+                        <p class="carte-event-desc">10 minutes pour entrer dans l'histoire. Venez nombreux partager un moment unique.</p>
+                        <span class="carte-event-tag">Théâtre</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/1e1e1e/ffffff?text=Soiree+Esseirot" alt="Soirée Esseirot">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Samedi 4 - 21h</div>
+                        <h4 class="carte-event-titre">Soirée ESSEIROT</h4>
+                        <p class="carte-event-desc">Une soirée conviviale et culturelle à ne pas manquer.</p>
+                        <span class="carte-event-tag">Soirée</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/fbc531/1e1e1e?text=Fanfare" alt="Fanfare">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Mercredi 8 - 21h</div>
+                        <h4 class="carte-event-titre">Fanfare Le Grand Boucan</h4>
+                        <p class="carte-event-desc">Une fanfare explosive pour animer la soirée !</p>
+                        <span class="carte-event-tag">Musique</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/e6007e/ffffff?text=Concert+Poetique" alt="Concert Poétique">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 10 - 21h</div>
+                        <h4 class="carte-event-titre">Concert Poétique</h4>
+                        <p class="carte-event-desc">Un voyage entre mots et mélodies.</p>
+                        <span class="carte-event-tag">Concert</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Août -->
+            <h3 class="mois-titre">Août 2026</h3>
+            <div class="grille-evenements">
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/4cd137/1e1e1e?text=Triple+Scott" alt="Triple Scott">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Samedi 1er - 21h</div>
+                        <h4 class="carte-event-titre">Triple Scott</h4>
+                        <p class="carte-event-desc">Chanson française et jazz.</p>
+                        <span class="carte-event-tag">Concert</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/1e1e1e/ffffff?text=Paniyiri" alt="Paniyiri">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Mardi 4 - 21h</div>
+                        <h4 class="carte-event-titre">Paniyiri</h4>
+                        <p class="carte-event-desc">Musique grecque envoûtante.</p>
+                        <span class="carte-event-tag">Musique</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/e6007e/ffffff?text=Duo+Zarico" alt="Duo Zarico">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Jeudi 6 - 21h</div>
+                        <h4 class="carte-event-titre">Duo Zarico</h4>
+                        <p class="carte-event-desc">Feel-good music pour se détendre.</p>
+                        <span class="carte-event-tag">Concert</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/fbc531/1e1e1e?text=Theatre+Forum" alt="Théâtre Forum">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 14 - 20h</div>
+                        <h4 class="carte-event-titre">Zeuplèce to Death / Le Discours du Chef Seattle</h4>
+                        <p class="carte-event-desc">Clown puis causerie avec Eric Derrien.</p>
+                        <span class="carte-event-tag">Théâtre</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Septembre -->
+            <h3 class="mois-titre">Septembre 2026</h3>
+            <div class="grille-evenements">
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/e6007e/ffffff?text=Scene+Ouverte" alt="Scène Ouverte">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 4 - 20h30</div>
+                        <h4 class="carte-event-titre">Scène Ouverte</h4>
+                        <p class="carte-event-desc">10 minutes pour entrer dans l'histoire. Ouverture 19h.</p>
+                        <span class="carte-event-tag">Théâtre</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/4cd137/1e1e1e?text=Echecs" alt="Échecs">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Dimanche 6 - 17h</div>
+                        <h4 class="carte-event-titre">ÉCHECS</h4>
+                        <p class="carte-event-desc">Découverte, initiation, perfectionnement.</p>
+                        <span class="carte-event-tag">Atelier</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/1e1e1e/ffffff?text=Madame+Pan" alt="Madame Pan">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 11 - 21h</div>
+                        <h4 class="carte-event-titre">Madame Pan et ses Troglydytes</h4>
+                        <p class="carte-event-desc">Théâtre. Coup de soutien aux Tréteaux.</p>
+                        <span class="carte-event-tag">Théâtre</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/fbc531/1e1e1e?text=Cine-Philo" alt="Ciné-Philo">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Mercredi 16 - 18h30</div>
+                        <h4 class="carte-event-titre">CINÉ-PHILO</h4>
+                        <p class="carte-event-desc">Film, débat et repas partagé.</p>
+                        <span class="carte-event-tag">Cinéma</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/e6007e/ffffff?text=Jewa" alt="Jewa">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Samedi 19 - 21h</div>
+                        <h4 class="carte-event-titre">JEWA (rap-ragga)</h4>
+                        <p class="carte-event-desc">Concert. Énergie garantie !</p>
+                        <span class="carte-event-tag">Concert</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/4cd137/1e1e1e?text=Arpentage" alt="Arpentage">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Mercredi 23 - 18h-20h</div>
+                        <h4 class="carte-event-titre">ARPENTAGE du livre "Résister"</h4>
+                        <p class="carte-event-desc">Lecture collective de Salomé Saqué, suivie d'un repas partagé.</p>
+                        <span class="carte-event-tag">Rencontre</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Octobre -->
+            <h3 class="mois-titre">Octobre 2026</h3>
+            <div class="grille-evenements">
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/e6007e/ffffff?text=Scene+Ouverte" alt="Scène Ouverte">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 2 - 20h30</div>
+                        <h4 class="carte-event-titre">Scène Ouverte</h4>
+                        <p class="carte-event-desc">10 minutes pour entrer dans l'histoire.</p>
+                        <span class="carte-event-tag">Théâtre</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/1e1e1e/ffffff?text=Theatre+Forum" alt="Théâtre Forum">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Sam. 17 & Dim. 18</div>
+                        <h4 class="carte-event-titre">STAGE Théâtre-Forum</h4>
+                        <p class="carte-event-desc">Théâtre des Opprimés. Un outil de dialogue communautaire.</p>
+                        <span class="carte-event-tag">Stage</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/fbc531/1e1e1e?text=La+Question" alt="La Question">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Vendredi 9 - 19h</div>
+                        <h4 class="carte-event-titre">La question de la propriété</h4>
+                        <p class="carte-event-desc">Repas (sur réservation) + Film + Débat.</p>
+                        <span class="carte-event-tag">Débat</span>
+                    </div>
+                </div>
+                <div class="carte-event">
+                    <img src="https://via.placeholder.com/400x250/4cd137/1e1e1e?text=Chtologo" alt="Chtologo">
+                    <div class="carte-event-contenu">
+                        <div class="carte-event-date">Samedi 31 - 20h30</div>
+                        <h4 class="carte-event-titre">CHTOLÔGO</h4>
+                        <p class="carte-event-desc">Concert loufopoetikopolitik.</p>
+                        <span class="carte-event-tag">Concert</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= LE LIEU ================= -->
+    <section id="le-lieu" class="le-lieu">
+        <div class="container">
+            <h2>Le Lieu & son Histoire</h2>
+            <div class="le-lieu-grid">
+                <div class="le-lieu-texte">
+                    <h3>Un mas familial, un lieu culturel</h3>
+                    <p>Le Collet, c'est un mas familial qui est aussi depuis 15 ans un lieu culturel et de rencontre en Hautes Cévennes (les Tréteaux du Collet).</p>
+                    <p>Anne et Denis Coutaudier ont créé et animé pendant de nombreuses années cet endroit à part, un peu pirate et très libre. Des habitants de la vallée (et d'un peu plus loin) se plaisent à fréquenter cet espace atypique.</p>
+                    <p>Depuis 2025, l'association <strong>Les Amis des Tréteaux</strong> propose une programmation foisonnante : théâtre, ateliers, chorale, concerts, cinéma, jeux de société...</p>
+                    <p>Aujourd'hui, Le Collet est en vente. Un petit groupe d'habitants du coin souhaite que cet endroit perdure, fidèle à l'esprit qui l'anime depuis sa création.</p>
+                </div>
+                <div class="le-lieu-image">
+                    <!-- Image du mas / paysage -->
+                    <img src="https://images.unsplash.com/photo-1543872084-c7bd3822856f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Le mas du Collet dans les Cévennes">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PROJET / SOUTIEN ================= -->
+    <section id="projet" class="projet">
+        <div class="container">
+            <h2>Pour le Collet et des Tréteaux</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 40px; color: #ccc;">Pour que ce lieu vive, pour qu'il reste accessible à toutes et tous... Nous avons besoin de vous !</p>
+
+            <div class="projet-grid">
+                <div class="projet-texte">
+                    <h3>Le Projet</h3>
+                    <p><strong>Côté scène :</strong> permettre à l'association des Amis des Tréteaux de maintenir ses activités.</p>
+                    <p><strong>Côté mas :</strong> proposer plusieurs nouveaux logements. Denis, qui souhaite rester, pourra être locataire à vie sur les lieux.</p>
+                    <p><strong>Notre objectif :</strong> Récolter, sous forme de dons, la somme nécessaire pour acheter Le Collet en propriété collective. Cela se fera en deux temps :</p>
+                    <ul>
+                        <li>Mi-juillet 2026 : réunir 15.000€ pour la signature du compromis de vente. <span style="color: var(--vert); font-weight: bold;">FAIT !</span></li>
+                        <li>Septembre 2027 : rassembler 137.000€, prix d'achat du bien avec les frais.</li>
+                    </ul>
+                    <p>On compte sur vous dès maintenant pour nous aider à réunir les fonds !</p>
+                    
+                    <div class="barre-progression">
+                        <div class="barre-remplie" style="width: 15%;">15 000 € / 137 000 €</div>
+                    </div>
+                    <p style="text-align: right; font-size: 0.9rem; color: var(--jaune);">Objectif : 137 000 € pour Septembre 2027</p>
+
+                    <h3 style="margin-top: 30px;">Comment puis-je donner ?</h3>
+                    <ul>
+                        <li>Via notre page HelloAsso : <a href="#" style="color: var(--vert); text-decoration: underline;">Lien vers la collecte</a></li>
+                        <li>En espèces ou chèque à l'ordre de : « association Les Communs de la Cèze ».</li>
+                        <li>Par virement (demandez-nous notre RIB).</li>
+                        <li>Par CB (terminal accessible aux Tréteaux).</li>
+                    </ul>
+                    <p><em>Les versements sont à faire auprès de l'un des membres fondateurs de l'association. Un reçu vous sera délivré en retour. Même un petit don, c'est beaucoup pour nous !</em></p>
+                </div>
+
+                <div class="faq-box">
+                    <h3 style="color: var(--rose); margin-bottom: 20px;">Foire Aux Questions</h3>
+                    
+                    <h4>Pourquoi ne pas faire un prêt bancaire ?</h4>
+                    <p>Parce que nous n'envisageons déjà de solliciter la banque lors de la 2nde phase du projet.</p>
+                    
+                    <h4>Que se passe-t-il si les dons ne suffisent pas ?</h4>
+                    <p>Notre plan B : des prêts à taux 0 auprès d'amis.</p>
+                    
+                    <h4>Que se passe-t-il si l'acquisition du Collet échoue ?</h4>
+                    <p>Si je souhaite être remboursé, je pourrai en faire la demande. Dans tous les cas : les frais déjà engagés sont couverts par les donateurs initiaux, membres fondateurs de l'association.</p>
+                    
+                    <h4>Comment puis-je m'impliquer autrement ?</h4>
+                    <p>En faisant passer le message autour de moi. Et en rejoignant les groupes de travail de l'association. Bienvenue !</p>
+                    
+                    <h4>Qu'est-ce que la propriété collective sans but lucratif ?</h4>
+                    <p>Elle désigne un bien qui appartient conjointement à un groupe de personnes plutôt qu'à un individu. Les membres de l'association, réunis en Assemblée Générale, sont responsables de la bonne administration du bien, décident des usages et garantissent qu'il ne soit pas revendu. Ce système s'oppose à la propriété privée et exclusive.</p>
+                </div>
+            </div>
+
+            <!-- Frise chronologique -->
+            <div class="frise">
+                <div class="frise-item">
+                    <span>1964</span>
+                    <small>Achat du Collet par la famille</small>
+                </div>
+                <div class="frise-item">
+                    <span>2011</span>
+                    <small>Installation de Denis et Anne</small>
+                </div>
+                <div class="frise-item">
+                    <span>2025</span>
+                    <small>Création de l'association Les Amis des Tréteaux</small>
+                </div>
+                <div class="frise-item">
+                    <span>Début 26</span>
+                    <small>Collecte de dons</small>
+                </div>
+                <div class="frise-item">
+                    <span>Juillet 26</span>
+                    <small>Signature du compromis (15 000 €) - FAIT</small>
+                </div>
+                <div class="frise-item">
+                    <span>Sept. 27</span>
+                    <small>Objectif : 137 000 € pour l'achat</small>
+                </div>
+                <div class="frise-item">
+                    <span>Mai 28</span>
+                    <small>Travaux Appart. 2</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Les Tréteaux du Collet</h4>
+                    <p>Un lieu culturel et de rencontre en Cévennes.</p>
+                    <p>Association Les Communs de la Cèze</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>Lieu-dit "Le Collet"</p>
+                    <p>30450 Concoules, France</p>
+                    <a href="tel:0658871970">06 58 87 19 70</a>
+                    <a href="mailto:treteauxducollet@gmail.com">treteauxducollet@gmail.com</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Liens utiles</h4>
+                    <a href="#programmation">Programmation</a>
+                    <a href="#projet">Faire un don</a>
+                    <a href="https://www.helloasso.com" target="_blank">HelloAsso</a>
+                    <a href="#">Mentions légales</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Les Tréteaux du Collet. Tous droits réservés. | Imprimé par nos soins. Ne pas jeter sur la voie publique.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= SCRIPT ================= -->
+    <script>
+        // Smooth scrolling pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Fermer le menu mobile après clic
+                    document.querySelector('nav').classList.remove('active');
+                }
+            });
+        });
+
+        // Animation de la barre de progression au scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    bar.style.width = bar.getAttribute('data-width') || '15%';
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const barre = document.querySelector('.barre-remplie');
+        if (barre) {
+            barre.setAttribute('data-width', '15%'); // Valeur cible
+            barre.style.width = '0%'; // Départ à 0
+            observer.observe(barre);
+        }
+    </script>
+</body>
+</html>
